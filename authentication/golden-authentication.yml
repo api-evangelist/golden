@@ -1,0 +1,21 @@
+generated: '2026-07-19'
+method: searched
+source: openapi/golden-openapi-original.json
+docs: https://docs.golden.com
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: apikey
+  description: >-
+    All requests to the Golden Public API v2 authenticate with an API key
+    passed in the `apikey` request header. Keys are issued from the Golden
+    account/API settings. There is no OAuth or user-delegated flow; the key
+    is a static service credential.
+  sources:
+  - openapi/golden-openapi-original.json
