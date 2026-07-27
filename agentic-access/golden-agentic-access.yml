@@ -1,0 +1,94 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/golden-openapi-original.json
+description: Recommended x-agentic-access execution contracts, classified heuristically from
+  the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
+  audience per deployment. See research/curity/agentic-governance/.
+summary:
+  operations: 8
+  by_action_class:
+    connected: 8
+  by_consequence:
+    read: 8
+  human_in_the_loop_required: 0
+operations:
+- path: /api/v2/public/entities/
+  method: get
+  operationId: public_api_entities_list
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v2/public/entities/{id}/
+  method: get
+  operationId: public_api_entities_retrieve
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v2/public/queries/{id}/results/
+  method: get
+  operationId: public_api_queries_results_list
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v2/public/queries/permalink/{permalink}/
+  method: get
+  operationId: public_api_queries_permalink_list
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v2/public/schema/entityTypes/
+  method: get
+  operationId: public_api_schema_entityTypes_list
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v2/public/schema/entityTypes/{id}/
+  method: get
+  operationId: public_api_schema_entityTypes_retrieve
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v2/public/schema/predicates/
+  method: get
+  operationId: public_api_schema_predicates_list
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /api/v2/public/schema/predicates/{id}/
+  method: get
+  operationId: public_api_schema_predicates_retrieve
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none

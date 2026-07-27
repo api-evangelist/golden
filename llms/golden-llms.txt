@@ -1,0 +1,43 @@
+# Golden
+
+> Golden is a company-data and knowledge-graph platform. The Golden Public API v2 gives developers read access to the knowledge graph: entities and their citation-backed properties, the schema of entity types and predicates, and natural-language Query results (curated, source-cited lists of entities). Authentication is via an API key in the `apikey` header; responses are cursor-paginated.
+
+## APIs
+
+- [Golden Public API v2](https://docs.golden.com): Read access to entities, schema (entity types + predicates), and Query results. Base URL https://golden.com/api/v2/public
+- [OpenAPI 3.1 specification](https://docs.golden.com/openapi.json): Machine-readable spec for the public API
+
+## Docs
+
+- [API Documentation](https://docs.golden.com): Scalar-rendered API reference
+- [Golden Guide (getting started)](https://goldenhq.notion.site/goldenhq/Golden-Guide-1eef7518f3ca43da8d6ee4d54307801b): Product and API guide
+- [Pricing](https://golden.com/pricing)
+- [Blog](https://golden.com/blog)
+- [Terms of Service](https://golden.com/about/terms-of-service)
+- [Privacy Policy](https://golden.com/about/privacy-policy)
+
+## Operations
+
+- GET /api/v2/public/entities/ — Get entities (list; filter by ids, entityTypeIds, predicateIds, filterPredicateId/filterValue; cursor + pageSize)
+- GET /api/v2/public/entities/{id}/ — Get entity by id
+- GET /api/v2/public/queries/{id}/results/ — Get query results by query id
+- GET /api/v2/public/queries/permalink/{permalink}/ — Get query results by permalink
+- GET /api/v2/public/schema/entityTypes/ — List entity types
+- GET /api/v2/public/schema/entityTypes/{id}/ — Get entity type by id
+- GET /api/v2/public/schema/predicates/ — List predicates
+- GET /api/v2/public/schema/predicates/{id}/ — Get predicate by id
+
+## Auth
+
+- API key in the `apikey` request header (ApiKeyAuth). No OAuth.
+
+## Artifacts (API Evangelist)
+
+- Authentication: authentication/golden-authentication.yml
+- Error catalog: errors/golden-problem-types.yml
+- Conventions: conventions/golden-conventions.yml
+- Data model: data-model/golden-data-model.yml
+- Lifecycle: lifecycle/golden-lifecycle.yml
+- Conformance: conformance/golden-conformance.yml
+- MCP (candidate): mcp/golden-mcp.yml
+- Agent skills: skills/_index.yml

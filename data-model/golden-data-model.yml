@@ -1,0 +1,91 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/golden-openapi-original.json
+docs: https://docs.golden.com
+entities:
+- name: Entity
+  schema: PublicAPIEntity
+  description: A node in the Golden knowledge graph (a company, technology, person, etc.).
+  key_fields:
+  - id
+  - latestVersionId
+  - properties
+  operations:
+  - openapi/golden-openapi-original.json#public_api_entities_list
+  - openapi/golden-openapi-original.json#public_api_entities_retrieve
+- name: EntityType
+  schema: PublicAPIEntityType
+  description: The schema/class of an entity, defining which predicates apply.
+  key_fields:
+  - id
+  - latestVersionId
+  - properties
+  - predicates
+  operations:
+  - openapi/golden-openapi-original.json#public_api_schema_entityTypes_list
+  - openapi/golden-openapi-original.json#public_api_schema_entityTypes_retrieve
+- name: Predicate
+  schema: PublicAPIPredicate
+  description: A property/relationship definition (the edges and attributes of entities).
+  key_fields:
+  - id
+  - name
+  - type
+  - objectChoices
+  - objectEntityTypes
+  - isFilterable
+  operations:
+  - openapi/golden-openapi-original.json#public_api_schema_predicates_list
+  - openapi/golden-openapi-original.json#public_api_schema_predicates_retrieve
+- name: EntityProperty
+  schema: PublicAPIEntityProperty
+  description: A predicate value (with instances and citations) attached to an entity.
+  key_fields:
+  - predicateId
+  - instances
+- name: Query
+  schema: PublicAPIQuery
+  description: A saved/natural-language query whose results are a list of entities.
+  key_fields:
+  - id
+  - prompt
+  operations:
+  - openapi/golden-openapi-original.json#public_api_queries_results_list
+  - openapi/golden-openapi-original.json#public_api_queries_permalink_list
+- name: Citation
+  schema: PublicAPICitation
+  description: A source reference (title + url) backing an entity property value.
+  key_fields:
+  - title
+  - url
+relationships:
+- from: Entity
+  to: EntityType
+  type: belongs_to
+  via: entityTypeIds
+  note: An entity is an instance of one or more entity types.
+- from: Entity
+  to: EntityProperty
+  type: has_many
+  via: properties
+- from: EntityProperty
+  to: Predicate
+  type: belongs_to
+  via: predicateId
+- from: EntityProperty
+  to: Citation
+  type: has_many
+  via: instances[].citations
+- from: EntityType
+  to: Predicate
+  type: has_many
+  via: predicates
+- from: Predicate
+  to: EntityType
+  type: has_many
+  via: objectEntityTypes
+  note: Relationship predicates point to allowed object entity types.
+- from: Query
+  to: Entity
+  type: has_many
+  via: results

@@ -1,7 +1,29 @@
 aid: golden
 name: Golden
-description: Golden is a company surfaced as a portfolio company of a16z, dcvc and added to the API Evangelist
-  network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Golden is a company-data and knowledge-graph platform that builds a
+  continuously updated, citation-backed map of companies, technologies,
+  people, and the relationships between them. The Golden Public API v2 gives
+  developers programmatic, read access to that knowledge graph: retrieve
+  entities and their properties, resolve the schema of entity types and
+  predicates, and run natural-language Queries that return curated,
+  source-cited lists of entities (for example, "companies in the artificial
+  intelligence industry"). Authentication is via an API key passed in the
+  `apikey` header, responses are cursor-paginated, and the API is documented
+  with an OpenAPI 3.1 specification. Golden is backed by a16z and DCVC.
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://golden.com/static/images/38d57130206f78fb48c9.png
 url: https://raw.githubusercontent.com/api-evangelist/golden/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -12,12 +34,99 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-19'
 tags:
 - Company
-apis: []
+- Knowledge Graph
+- Company Data
+- Data
+- Entities
+- Artificial Intelligence
+- Search
+- Business Intelligence
+apis:
+- aid: golden:golden-entity-api-api
+  name: Golden Entity API API
+  description: The Entity API API from Golden — 2 operation(s) for entity api.
+  humanURL: https://docs.golden.com
+  baseURL: https://golden.com/api/v2/public
+  tags:
+  - Entity API
+  properties:
+  - type: OpenAPI
+    url: openapi/golden-entity-api-api-openapi.yml
+- aid: golden:golden-query-api-api
+  name: Golden Query API API
+  description: The Query API API from Golden — 2 operation(s) for query api.
+  humanURL: https://docs.golden.com
+  baseURL: https://golden.com/api/v2/public
+  tags:
+  - Query API
+  properties:
+  - type: OpenAPI
+    url: openapi/golden-query-api-api-openapi.yml
+- aid: golden:golden-schema-api-api
+  name: Golden Schema API API
+  description: The Schema API API from Golden — 4 operation(s) for schema api.
+  humanURL: https://docs.golden.com
+  baseURL: https://golden.com/api/v2/public
+  tags:
+  - Schema API
+  properties:
+  - type: OpenAPI
+    url: openapi/golden-schema-api-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+common:
+- type: DeveloperPortal
+  url: https://docs.golden.com
+- type: Documentation
+  url: https://docs.golden.com
+- type: APIReference
+  url: https://docs.golden.com
+- type: GettingStarted
+  url: https://goldenhq.notion.site/goldenhq/Golden-Guide-1eef7518f3ca43da8d6ee4d54307801b
+- type: Support
+  url: https://golden.com/contact
+- type: Blog
+  url: https://golden.com/blog
+- type: Pricing
+  url: https://golden.com/pricing
+- type: SignUp
+  url: https://golden.com/login
+- type: TermsOfService
+  url: https://golden.com/about/terms-of-service
+- type: PrivacyPolicy
+  url: https://golden.com/about/privacy-policy
+- type: Authentication
+  url: authentication/golden-authentication.yml
+- type: ErrorCatalog
+  url: errors/golden-problem-types.yml
+- type: Conventions
+  url: conventions/golden-conventions.yml
+- type: DataModel
+  url: data-model/golden-data-model.yml
+- type: Lifecycle
+  url: lifecycle/golden-lifecycle.yml
+- type: Conformance
+  url: conformance/golden-conformance.yml
+- type: MCPServer
+  url: mcp/golden-mcp.yml
+- type: LLMsTxt
+  url: llms/golden-llms.txt
+- type: AgentSkill
+  url: skills/_index.yml
+- type: WellKnown
+  url: well-known/golden-well-known.yml
+- type: AgenticAccess
+  url: agentic-access/golden-agentic-access.yml
+- type: DomainSecurity
+  url: security/golden-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

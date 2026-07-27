@@ -1,0 +1,36 @@
+generated: '2026-07-19'
+method: derived
+status: candidate
+source: openapi/golden-openapi-original.json
+note: >-
+  No official hosted/remote Golden MCP server was found (no entry in the MCP
+  registry or Golden docs as of this pass). The tool list below is a candidate
+  derived one-to-one from the Golden Public API v2 operations.
+server:
+  name: golden
+  transport: http
+tools:
+- name: list_entities
+  description: List entities in the Golden knowledge graph, filtered by ids, entity types, and predicates.
+  source_operation: openapi/golden-openapi-original.json#public_api_entities_list
+- name: get_entity
+  description: Retrieve a single entity by id.
+  source_operation: openapi/golden-openapi-original.json#public_api_entities_retrieve
+- name: get_query_results
+  description: Get the entity results for a saved Query by query id.
+  source_operation: openapi/golden-openapi-original.json#public_api_queries_results_list
+- name: get_query_results_by_permalink
+  description: Get the entity results for a Query by its permalink.
+  source_operation: openapi/golden-openapi-original.json#public_api_queries_permalink_list
+- name: list_entity_types
+  description: List entity types in the schema.
+  source_operation: openapi/golden-openapi-original.json#public_api_schema_entityTypes_list
+- name: get_entity_type
+  description: Retrieve a single entity type schema by id.
+  source_operation: openapi/golden-openapi-original.json#public_api_schema_entityTypes_retrieve
+- name: list_predicates
+  description: List predicates (properties/relationships) in the schema.
+  source_operation: openapi/golden-openapi-original.json#public_api_schema_predicates_list
+- name: get_predicate
+  description: Retrieve a single predicate schema by id.
+  source_operation: openapi/golden-openapi-original.json#public_api_schema_predicates_retrieve

@@ -1,0 +1,18 @@
+{
+  "provider": "golden",
+  "sources": [
+    "golden-entity-api-api-openapi.yml",
+    "golden-query-api-api-openapi.yml",
+    "golden-schema-api-api-openapi.yml"
+  ],
+  "outputs": [
+    "golden-entity-api-api-openapi.yml",
+    "golden-query-api-api-openapi.yml",
+    "golden-schema-api-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

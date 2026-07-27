@@ -1,0 +1,55 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/golden-openapi-original.json
+docs: https://docs.golden.com
+authentication:
+  style: api-key
+  location: header
+  parameter: apikey
+  see: authentication/golden-authentication.yml
+idempotency:
+  supported: false
+  note: >-
+    The Golden Public API v2 is read-only (all operations are GET), so there
+    is no idempotency-key contract; GET requests are inherently idempotent.
+pagination:
+  style: cursor
+  request_params:
+  - name: cursor
+    in: query
+    description: Opaque pagination cursor value returned in next/previous links.
+  - name: pageSize
+    in: query
+    description: Number of results per page (default 20 for entities; per-endpoint defaults apply).
+  response_fields:
+  - next
+  - previous
+  - results
+  note: DRF-style cursor pagination; follow `next`/`previous` URLs to page.
+filtering:
+  entities:
+  - ids
+  - entityTypeIds
+  - predicateIds
+  - filterPredicateId
+  - filterValue
+  note: >-
+    Comma-separated id lists restrict scope; filterPredicateId + filterValue
+    apply a predicate-based filter. Predicate/entity-type ids come from the
+    schema endpoints.
+versioning:
+  scheme: uri-path
+  current: v2
+  base_path: /api/v2/public
+error_envelope:
+  content_type: application/json
+  format: json
+  fields:
+  - code
+  - detail
+  - attr
+  see: errors/golden-problem-types.yml
+rate_limiting:
+  signal: HTTP 429 with code `throttled`
+  note: Per-plan throttling; no documented rate-limit response headers in the spec.
+  see: errors/golden-problem-types.yml

@@ -1,0 +1,33 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/golden-openapi-original.json
+standards:
+- id: openapi-3.1
+  conforms: true
+  evidence: Spec is OpenAPI 3.1.0, served at https://docs.golden.com/openapi.json
+- id: apikey-auth
+  conforms: true
+  evidence: securitySchemes ApiKeyAuth (apiKey in header `apikey`)
+- id: oauth2
+  conforms: false
+  evidence: No oauth2 security scheme declared
+- id: oidc
+  conforms: false
+- id: cursor-pagination
+  conforms: true
+  evidence: Paginated*List schemas expose next/previous/results with cursor + pageSize params
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Errors use application/json custom envelope (code/detail/attr), not application/problem+json
+- id: rate-limiting
+  conforms: true
+  evidence: HTTP 429 `throttled` responses declared on all operations
+- id: rest
+  conforms: true
+  evidence: Resource-oriented GET endpoints over HTTPS with JSON representations
+- id: json-api
+  conforms: false
+- id: fhir-r4
+  conforms: false
+- id: scim
+  conforms: false

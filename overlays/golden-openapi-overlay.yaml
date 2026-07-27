@@ -1,0 +1,35 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for Golden Public API v2
+  version: 1.0.0
+extends: openapi/golden-openapi-original.json
+actions:
+- target: $.info
+  update:
+    x-apievangelist-slug: golden
+    x-apievangelist-artifacts:
+    - authentication/golden-authentication.yml
+    - errors/golden-problem-types.yml
+    - conventions/golden-conventions.yml
+    - data-model/golden-data-model.yml
+    - lifecycle/golden-lifecycle.yml
+    - conformance/golden-conformance.yml
+    - mcp/golden-mcp.yml
+    - skills/_index.yml
+- target: $.info
+  update:
+    description: >-
+      Golden Public API v2 — read access to the Golden knowledge graph:
+      entities and their citation-backed properties, entity-type and predicate
+      schema, and natural-language Query results. Authenticate with an API key
+      in the `apikey` header. Responses are cursor-paginated (next/previous/
+      results); errors return application/json with code/detail/attr; throttling
+      surfaces as HTTP 429.
+- target: $.tags
+  update:
+  - name: entities
+    description: Retrieve knowledge-graph entities and their properties.
+  - name: queries
+    description: Run and page saved/natural-language queries.
+  - name: schema
+    description: Resolve entity types and predicates.

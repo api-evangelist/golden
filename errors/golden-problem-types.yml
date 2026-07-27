@@ -1,0 +1,53 @@
+generated: '2026-07-19'
+method: derived
+source: openapi/golden-openapi-original.json
+format: json
+envelope:
+  description: >-
+    Errors are returned as application/json with a machine-readable `code`
+    enum, a human-readable `detail` string, and a nullable `attr` naming the
+    offending attribute (a drf-standardized-errors style envelope). 400
+    validation errors return a list under `errors[]` with `code`/`detail`/`attr`.
+  fields:
+  - code
+  - detail
+  - attr
+problems:
+- status: 400
+  code: validation_error
+  title: Validation error
+  detail: One or more request parameters failed validation.
+  remediation: Check query parameters (ids, entityTypeIds, predicateIds, filterPredicateId, filterValue, cursor, pageSize) against the schema.
+  source_operations:
+  - openapi/golden-openapi-original.json#public_api_entities_list
+  - openapi/golden-openapi-original.json#public_api_queries_results_list
+- status: 403
+  code: permission_denied
+  title: Permission denied
+  detail: The API key is missing, invalid, or not permitted to access the resource.
+  remediation: Supply a valid `apikey` header with a plan that grants access.
+  source_operations:
+  - openapi/golden-openapi-original.json#public_api_entities_retrieve
+- status: 404
+  code: not_found
+  title: Not found
+  detail: The requested entity, query, entity type, or predicate does not exist.
+  remediation: Verify the id/permalink; use the schema and list endpoints to discover valid identifiers.
+  source_operations:
+  - openapi/golden-openapi-original.json#public_api_entities_retrieve
+  - openapi/golden-openapi-original.json#public_api_schema_predicates_retrieve
+- status: 429
+  code: throttled
+  title: Throttled
+  detail: The request was rate limited.
+  remediation: Back off and retry after the throttle window; reduce request rate or upgrade the plan.
+  source_operations:
+  - openapi/golden-openapi-original.json#public_api_entities_list
+- status: 500
+  code: error
+  type: server_error
+  title: Server error
+  detail: An unexpected server error occurred.
+  remediation: Retry with backoff; contact Golden support if it persists.
+  source_operations:
+  - openapi/golden-openapi-original.json#public_api_entities_list

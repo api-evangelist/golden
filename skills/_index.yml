@@ -1,0 +1,24 @@
+generated: '2026-07-19'
+method: generated
+source: openapi/golden-openapi-original.json
+skills:
+- file: golden-run-query.md
+  name: Run a Golden Query and read its results
+  api: openapi/golden-openapi-original.json
+  operations:
+  - public_api_queries_permalink_list
+  - public_api_queries_results_list
+- file: golden-lookup-entity.md
+  name: Look up an entity and its properties
+  api: openapi/golden-openapi-original.json
+  operations:
+  - public_api_entities_list
+  - public_api_entities_retrieve
+- file: golden-explore-schema.md
+  name: Explore the Golden schema (entity types and predicates)
+  api: openapi/golden-openapi-original.json
+  operations:
+  - public_api_schema_entityTypes_list
+  - public_api_schema_entityTypes_retrieve
+  - public_api_schema_predicates_list
+  - public_api_schema_predicates_retrieve

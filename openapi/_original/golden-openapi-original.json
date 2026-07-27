@@ -1,0 +1,2225 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Golden API v2",
+    "version": "2.0"
+  },
+  "servers": [
+    {
+      "url": "https://golden.com/",
+      "description": "Golden Public API V2"
+    }
+  ],
+  "paths": {
+    "/api/v2/public/entities/": {
+      "get": {
+        "operationId": "public_api_entities_list",
+        "summary": "Get entities",
+        "parameters": [
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "The pagination cursor value.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "entityTypeIds",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma separated Entity type ID(s) to restrict to (use schema API above to retrieve all available entity types).",
+            "examples": {
+              "CompanyAndPersonEntityTypes": {
+                "value": "6,36",
+                "summary": "Company and Person entity types"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "filterPredicateId",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Set a predicate filter by using filterPredicateId and filterValue query params. filterPredicateId is the ID of the predicate to be used. See predicate schema isFilterable field for supported predicate IDs.",
+            "examples": {
+              "WebsiteFilter": {
+                "value": "website",
+                "summary": "Website filter"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "filterValue",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Set a predicate filter by using filterPredicateId and filterValue query params. filterValue is the value to be used for the filter.",
+            "examples": {
+              "WebsiteFilterValue": {
+                "value": "https://golden-support.com",
+                "summary": "Website filter value"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "ids",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma separated entity IDs to restrict returned entities.",
+            "examples": {
+              "GoldenAndJudeGomilaEntities": {
+                "value": "21,78",
+                "summary": "Golden and Jude Gomila entities"
+              }
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.\nThe default value is 2 for Free Plan and 10 for Any Paid Plan.\nThe maximum value is 100.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "predicateIds",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma separated Predicate ID(s) to restrict returned properties. Returns just the name property if not set.",
+            "examples": {
+              "WebsiteAndDateOfBirthPredicates": {
+                "value": "website,dateOfBirth",
+                "summary": "Website and Date Of Birth predicates"
+              }
+            }
+          }
+        ],
+        "tags": [
+          "Entity API"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicApiEntitiesListErrorResponse400"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse403"
+                },
+                "examples": {
+                  "PermissionDenied": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "permission_denied",
+                          "detail": "You do not have permission to perform this action.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse404"
+                },
+                "examples": {
+                  "NotFound": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "not_found",
+                          "detail": "Not found.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse429"
+                },
+                "examples": {
+                  "Throttled": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "throttled",
+                          "detail": "Request was throttled.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse500"
+                },
+                "examples": {
+                  "APIException": {
+                    "value": {
+                      "type": "server_error",
+                      "errors": [
+                        {
+                          "code": "error",
+                          "detail": "A server error occurred.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedPublicAPIEntityList"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v2/public/entities/{id}/": {
+      "get": {
+        "operationId": "public_api_entities_retrieve",
+        "summary": "Get entity by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this entity.",
+            "required": true,
+            "examples": {
+              "GoldenCompanyEntity": {
+                "value": 21,
+                "summary": "Golden company entity"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "predicateIds",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma separated Predicate ID(s) to restrict returned properties. Returns just the name property if not set.",
+            "examples": {
+              "WebsiteAndDateOfBirthPredicates": {
+                "value": "website,dateOfBirth",
+                "summary": "Website and Date Of Birth predicates"
+              }
+            }
+          }
+        ],
+        "tags": [
+          "Entity API"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicApiEntitiesRetrieveErrorResponse400"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse403"
+                },
+                "examples": {
+                  "PermissionDenied": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "permission_denied",
+                          "detail": "You do not have permission to perform this action.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse404"
+                },
+                "examples": {
+                  "NotFound": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "not_found",
+                          "detail": "Not found.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse429"
+                },
+                "examples": {
+                  "Throttled": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "throttled",
+                          "detail": "Request was throttled.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse500"
+                },
+                "examples": {
+                  "APIException": {
+                    "value": {
+                      "type": "server_error",
+                      "errors": [
+                        {
+                          "code": "error",
+                          "detail": "A server error occurred.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicAPIEntity"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v2/public/queries/{id}/results/": {
+      "get": {
+        "operationId": "public_api_queries_results_list",
+        "summary": "Get query results by query id",
+        "parameters": [
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "The pagination cursor value.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this query.",
+            "required": true,
+            "examples": {
+              "AICompaniesPublicQuery": {
+                "value": 5421,
+                "summary": "AI Companies public query"
+              }
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.\nThe default value is 2 for Free Plan and 10 for Any Paid Plan.\nThe maximum value is 100.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "predicateIds",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma separated Predicate ID(s) to restrict returned properties. Returns just the name property if not set.",
+            "examples": {
+              "WebsiteAndDateOfBirthPredicates": {
+                "value": "website,dateOfBirth",
+                "summary": "Website and Date Of Birth predicates"
+              }
+            }
+          }
+        ],
+        "tags": [
+          "Query API"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicApiQueriesResultsListErrorResponse400"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse403"
+                },
+                "examples": {
+                  "PermissionDenied": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "permission_denied",
+                          "detail": "You do not have permission to perform this action.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse404"
+                },
+                "examples": {
+                  "NotFound": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "not_found",
+                          "detail": "Not found.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse429"
+                },
+                "examples": {
+                  "Throttled": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "throttled",
+                          "detail": "Request was throttled.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse500"
+                },
+                "examples": {
+                  "APIException": {
+                    "value": {
+                      "type": "server_error",
+                      "errors": [
+                        {
+                          "code": "error",
+                          "detail": "A server error occurred.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedPublicAPIEntityList"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v2/public/queries/permalink/{permalink}/": {
+      "get": {
+        "operationId": "public_api_queries_permalink_list",
+        "summary": "Get query results by query permalink",
+        "parameters": [
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "The pagination cursor value.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.\nThe default value is 2 for Free Plan and 10 for Any Paid Plan.\nThe maximum value is 100.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "path",
+            "name": "permalink",
+            "schema": {
+              "type": "string"
+            },
+            "description": "A permalink identifying this query.",
+            "required": true,
+            "examples": {
+              "SpiderSilkCompanies": {
+                "value": "WzYsW1szMixudWxsLCJhbnkiLGZhbHNlLFsiMzgxMDgiXSxudWxsXV0sZmFsc2UsW10sIiJd",
+                "summary": "Spider silk companies"
+              }
+            }
+          },
+          {
+            "in": "query",
+            "name": "predicateIds",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Comma separated Predicate ID(s) to restrict returned properties. Returns just the name property if not set.",
+            "examples": {
+              "WebsiteAndDateOfBirthPredicates": {
+                "value": "website,dateOfBirth",
+                "summary": "Website and Date Of Birth predicates"
+              }
+            }
+          }
+        ],
+        "tags": [
+          "Query API"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicApiQueriesPermalinkListErrorResponse400"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse403"
+                },
+                "examples": {
+                  "PermissionDenied": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "permission_denied",
+                          "detail": "You do not have permission to perform this action.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse404"
+                },
+                "examples": {
+                  "NotFound": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "not_found",
+                          "detail": "Not found.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse429"
+                },
+                "examples": {
+                  "Throttled": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "throttled",
+                          "detail": "Request was throttled.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse500"
+                },
+                "examples": {
+                  "APIException": {
+                    "value": {
+                      "type": "server_error",
+                      "errors": [
+                        {
+                          "code": "error",
+                          "detail": "A server error occurred.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedPublicAPIEntityList"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v2/public/schema/entityTypes/": {
+      "get": {
+        "operationId": "public_api_schema_entityTypes_list",
+        "summary": "Get entity types schema",
+        "parameters": [
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "The pagination cursor value.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.\n The default value is 100 and the maximum 100.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "tags": [
+          "Schema API"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicApiSchemaEntityTypesListErrorResponse400"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse403"
+                },
+                "examples": {
+                  "PermissionDenied": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "permission_denied",
+                          "detail": "You do not have permission to perform this action.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse404"
+                },
+                "examples": {
+                  "NotFound": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "not_found",
+                          "detail": "Not found.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse429"
+                },
+                "examples": {
+                  "Throttled": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "throttled",
+                          "detail": "Request was throttled.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse500"
+                },
+                "examples": {
+                  "APIException": {
+                    "value": {
+                      "type": "server_error",
+                      "errors": [
+                        {
+                          "code": "error",
+                          "detail": "A server error occurred.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedPublicAPIEntityTypeList"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v2/public/schema/entityTypes/{id}/": {
+      "get": {
+        "operationId": "public_api_schema_entityTypes_retrieve",
+        "summary": "Get entity type schema by entity type id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "A unique integer value identifying this entity type.",
+            "required": true,
+            "examples": {
+              "CompanyEntityType": {
+                "value": 6,
+                "summary": "Company Entity Type"
+              }
+            }
+          }
+        ],
+        "tags": [
+          "Schema API"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicApiSchemaEntityTypesRetrieveErrorResponse400"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse403"
+                },
+                "examples": {
+                  "PermissionDenied": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "permission_denied",
+                          "detail": "You do not have permission to perform this action.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse404"
+                },
+                "examples": {
+                  "NotFound": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "not_found",
+                          "detail": "Not found.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse429"
+                },
+                "examples": {
+                  "Throttled": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "throttled",
+                          "detail": "Request was throttled.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse500"
+                },
+                "examples": {
+                  "APIException": {
+                    "value": {
+                      "type": "server_error",
+                      "errors": [
+                        {
+                          "code": "error",
+                          "detail": "A server error occurred.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicAPIEntityType"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v2/public/schema/predicates/": {
+      "get": {
+        "operationId": "public_api_schema_predicates_list",
+        "summary": "Get predicates schema",
+        "parameters": [
+          {
+            "name": "cursor",
+            "required": false,
+            "in": "query",
+            "description": "The pagination cursor value.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of results to return per page.\n The default value is 100 and the maximum 100.",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "tags": [
+          "Schema API"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicApiSchemaPredicatesListErrorResponse400"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse403"
+                },
+                "examples": {
+                  "PermissionDenied": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "permission_denied",
+                          "detail": "You do not have permission to perform this action.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse404"
+                },
+                "examples": {
+                  "NotFound": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "not_found",
+                          "detail": "Not found.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse429"
+                },
+                "examples": {
+                  "Throttled": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "throttled",
+                          "detail": "Request was throttled.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse500"
+                },
+                "examples": {
+                  "APIException": {
+                    "value": {
+                      "type": "server_error",
+                      "errors": [
+                        {
+                          "code": "error",
+                          "detail": "A server error occurred.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedPublicAPIPredicateList"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/v2/public/schema/predicates/{id}/": {
+      "get": {
+        "operationId": "public_api_schema_predicates_retrieve",
+        "summary": "Get predicate schema by predicate id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "description": "A unique string value identifying this predicate.",
+            "required": true,
+            "examples": {
+              "Website": {
+                "value": "website"
+              }
+            }
+          }
+        ],
+        "tags": [
+          "Schema API"
+        ],
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
+        "responses": {
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicApiSchemaPredicatesRetrieveErrorResponse400"
+                }
+              }
+            },
+            "description": ""
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse403"
+                },
+                "examples": {
+                  "PermissionDenied": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "permission_denied",
+                          "detail": "You do not have permission to perform this action.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse404"
+                },
+                "examples": {
+                  "NotFound": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "not_found",
+                          "detail": "Not found.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse429"
+                },
+                "examples": {
+                  "Throttled": {
+                    "value": {
+                      "type": "client_error",
+                      "errors": [
+                        {
+                          "code": "throttled",
+                          "detail": "Request was throttled.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse500"
+                },
+                "examples": {
+                  "APIException": {
+                    "value": {
+                      "type": "server_error",
+                      "errors": [
+                        {
+                          "code": "error",
+                          "detail": "A server error occurred.",
+                          "attr": null
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "description": ""
+          },
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicAPIPredicate"
+                }
+              }
+            },
+            "description": ""
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error403": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/Error403CodeEnum"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "attr": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "attr",
+          "code",
+          "detail"
+        ]
+      },
+      "Error403CodeEnum": {
+        "enum": [
+          "permission_denied"
+        ],
+        "type": "string",
+        "description": "* `permission_denied` - Permission Denied"
+      },
+      "Error404": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/Error404CodeEnum"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "attr": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "attr",
+          "code",
+          "detail"
+        ]
+      },
+      "Error404CodeEnum": {
+        "enum": [
+          "not_found"
+        ],
+        "type": "string",
+        "description": "* `not_found` - Not Found"
+      },
+      "Error429": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/Error429CodeEnum"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "attr": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "attr",
+          "code",
+          "detail"
+        ]
+      },
+      "Error429CodeEnum": {
+        "enum": [
+          "throttled"
+        ],
+        "type": "string",
+        "description": "* `throttled` - Throttled"
+      },
+      "Error500": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/Error500CodeEnum"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "attr": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "attr",
+          "code",
+          "detail"
+        ]
+      },
+      "Error500CodeEnum": {
+        "enum": [
+          "error"
+        ],
+        "type": "string",
+        "description": "* `error` - Error"
+      },
+      "ErrorResponse403": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type5d3Enum"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error403"
+            }
+          }
+        },
+        "required": [
+          "errors",
+          "type"
+        ]
+      },
+      "ErrorResponse404": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type5d3Enum"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error404"
+            }
+          }
+        },
+        "required": [
+          "errors",
+          "type"
+        ]
+      },
+      "ErrorResponse429": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type5d3Enum"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error429"
+            }
+          }
+        },
+        "required": [
+          "errors",
+          "type"
+        ]
+      },
+      "ErrorResponse500": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/ErrorResponse500TypeEnum"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Error500"
+            }
+          }
+        },
+        "required": [
+          "errors",
+          "type"
+        ]
+      },
+      "ErrorResponse500TypeEnum": {
+        "enum": [
+          "server_error"
+        ],
+        "type": "string",
+        "description": "* `server_error` - Server Error"
+      },
+      "PaginatedPublicAPIEntityList": {
+        "type": "object",
+        "properties": {
+          "next": {
+            "type": "string",
+            "nullable": true,
+            "format": "uri",
+            "description": "URL of next page"
+          },
+          "previous": {
+            "type": "string",
+            "nullable": true,
+            "format": "uri",
+            "description": "URL of previous page"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPIEntity"
+            }
+          }
+        }
+      },
+      "PaginatedPublicAPIEntityTypeList": {
+        "type": "object",
+        "properties": {
+          "next": {
+            "type": "string",
+            "nullable": true,
+            "format": "uri",
+            "description": "URL of next page"
+          },
+          "previous": {
+            "type": "string",
+            "nullable": true,
+            "format": "uri",
+            "description": "URL of previous page"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPIEntityType"
+            }
+          }
+        }
+      },
+      "PaginatedPublicAPIPredicateList": {
+        "type": "object",
+        "properties": {
+          "next": {
+            "type": "string",
+            "nullable": true,
+            "format": "uri",
+            "description": "URL of next page"
+          },
+          "previous": {
+            "type": "string",
+            "nullable": true,
+            "format": "uri",
+            "description": "URL of previous page"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPIPredicate"
+            }
+          }
+        }
+      },
+      "ParseError": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ParseErrorCodeEnum"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "attr": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "required": [
+          "attr",
+          "code",
+          "detail"
+        ]
+      },
+      "ParseErrorCodeEnum": {
+        "enum": [
+          "parse_error"
+        ],
+        "type": "string",
+        "description": "* `parse_error` - Parse Error"
+      },
+      "ParseErrorResponse": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/Type5d3Enum"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ParseError"
+            }
+          }
+        },
+        "required": [
+          "errors",
+          "type"
+        ]
+      },
+      "PublicAPICitation": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Citation Title"
+          },
+          "url": {
+            "type": "string",
+            "description": "Citation URL value"
+          }
+        },
+        "required": [
+          "title",
+          "url"
+        ]
+      },
+      "PublicAPIEntity": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Entity ID"
+          },
+          "latestVersionId": {
+            "type": "integer",
+            "description": "ID of latest entity version"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPIEntityProperty"
+            },
+            "readOnly": true,
+            "description": "Array of properties"
+          }
+        },
+        "required": [
+          "id",
+          "latestVersionId",
+          "properties"
+        ]
+      },
+      "PublicAPIEntityProperty": {
+        "type": "object",
+        "properties": {
+          "predicateId": {
+            "type": "string",
+            "description": "Property Predicate ID"
+          },
+          "instances": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPIEntityPropertyInstance"
+            },
+            "description": "Array of Property Instances"
+          }
+        },
+        "required": [
+          "instances",
+          "predicateId"
+        ]
+      },
+      "PublicAPIEntityPropertyInstance": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PublicAPIEntityPropertyValue"
+              }
+            ],
+            "description": "Property Instance Value. The format depends on the predicate type.\nSee the description for each option."
+          },
+          "citations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPICitation"
+            },
+            "description": "Arrays of citations"
+          }
+        },
+        "required": [
+          "citations",
+          "value"
+        ]
+      },
+      "PublicAPIEntityPropertyValue": {
+        "oneOf": [
+          {
+            "type": "integer",
+            "description": "Integer value. Used for int type."
+          },
+          {
+            "type": "number",
+            "description": "Number value. Used for float predicate types."
+          },
+          {
+            "type": "string",
+            "description": "String value. Used for text, url and date predicate types.\nFor date type, the value is ISO-8601 formatted (YYYY-MM-DD, YYYY-MM, or YYYY)."
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "Entity ID"
+              },
+              "properties": {
+                "type": "array",
+                "items": {
+                  "type": "object"
+                },
+                "description": "Array of properties. Same format as the root properties. Since this is a reference, it only includes the name property."
+              }
+            },
+            "description": "Entity reference object. Used for entity and location types.",
+            "required": [
+              "id",
+              "properties"
+            ]
+          },
+          {
+            "type": "object",
+            "properties": {
+              "gte": {
+                "type": "integer",
+                "description": "Range start numeric value (inclusive)"
+              },
+              "lte": {
+                "type": "integer",
+                "description": "Range end numeric value (inclusive)"
+              }
+            },
+            "description": "Integer Range Value",
+            "required": [
+              "gte",
+              "lte"
+            ]
+          },
+          {
+            "type": "object",
+            "description": "JSON object value. Used for json predicate type.\nFor json type, the schema is predicate specific. See predicate schema resource for details."
+          }
+        ]
+      },
+      "PublicAPIEntityReference": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPIEntityProperty"
+            },
+            "readOnly": true,
+            "description": "Array of properties. Since this is a reference, it only includes the name property."
+          }
+        },
+        "required": [
+          "id",
+          "properties"
+        ]
+      },
+      "PublicAPIEntityType": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true
+          },
+          "latestVersionId": {
+            "type": "integer",
+            "description": "ID of latest entity version"
+          },
+          "properties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPIEntityProperty"
+            },
+            "readOnly": true,
+            "description": "Array of properties"
+          },
+          "predicates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPIPredicateReference"
+            },
+            "description": "Predicates associated with the entity type"
+          }
+        },
+        "required": [
+          "id",
+          "latestVersionId",
+          "predicates",
+          "properties"
+        ]
+      },
+      "PublicAPIPredicate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Predicate ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Predicate Name"
+          },
+          "description": {
+            "type": "string",
+            "description": "Predicate Description"
+          },
+          "type": {
+            "type": "string",
+            "readOnly": true,
+            "description": "Can be int, intrange, float, text, url, entity and location"
+          },
+          "objectChoices": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPIPredicateObjectChoice"
+            },
+            "readOnly": true,
+            "description": "If set, it defines the value choice set."
+          },
+          "objectEntityTypes": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPIEntityReference"
+            },
+            "readOnly": true,
+            "description": "For predicates of type entity, this field defines the allowed entity types."
+          },
+          "objectJsonPredicates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicAPIPredicateReference"
+            },
+            "readOnly": true,
+            "description": "For predicates of type json, this defines the associated subpredicates.\nThe object value will be an object where each key is a subpredicate ID and each value is the associated subpredicate value."
+          },
+          "isFilterable": {
+            "type": "boolean",
+            "description": "Can be used to filter entities with filterPredicateId query string param"
+          }
+        },
+        "required": [
+          "description",
+          "isFilterable",
+          "objectChoices",
+          "objectEntityTypes",
+          "objectJsonPredicates",
+          "type"
+        ]
+      },
+      "PublicAPIPredicateObjectChoice": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/PublicAPIEntityPropertyValue"
+              }
+            ],
+            "description": "Object choice value. The format depends on the predicate type.\nSee the description for each option."
+          }
+        },
+        "required": [
+          "value"
+        ]
+      },
+      "PublicAPIPredicateReference": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Predicate ID"
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "PublicAPIQuery": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "readOnly": true,
+            "description": "Query ID"
+          },
+          "prompt": {
+            "type": "string",
+            "description": "Natural language text input",
+            "maxLength": 150,
+            "minLength": 10
+          }
+        },
+        "required": [
+          "id",
+          "prompt"
+        ]
+      },
+      "PublicApiEntitiesListErrorResponse400": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ParseErrorResponse"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "client_error": "#/components/schemas/ParseErrorResponse"
+          }
+        }
+      },
+      "PublicApiEntitiesRetrieveErrorResponse400": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ParseErrorResponse"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "client_error": "#/components/schemas/ParseErrorResponse"
+          }
+        }
+      },
+      "PublicApiQueriesCreateError": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/PublicApiQueriesCreateNonFieldErrorsErrorComponent"
+          },
+          {
+            "$ref": "#/components/schemas/PublicApiQueriesCreatePromptErrorComponent"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "attr",
+          "mapping": {
+            "non_field_errors": "#/components/schemas/PublicApiQueriesCreateNonFieldErrorsErrorComponent",
+            "prompt": "#/components/schemas/PublicApiQueriesCreatePromptErrorComponent"
+          }
+        }
+      },
+      "PublicApiQueriesCreateErrorResponse400": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/PublicApiQueriesCreateValidationError"
+          },
+          {
+            "$ref": "#/components/schemas/ParseErrorResponse"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "validation_error": "#/components/schemas/PublicApiQueriesCreateValidationError",
+            "client_error": "#/components/schemas/ParseErrorResponse"
+          }
+        }
+      },
+      "PublicApiQueriesCreateNonFieldErrorsErrorComponent": {
+        "type": "object",
+        "properties": {
+          "attr": {
+            "$ref": "#/components/schemas/PublicApiQueriesCreateNonFieldErrorsErrorComponentAttrEnum"
+          },
+          "code": {
+            "$ref": "#/components/schemas/PublicApiQueriesCreateNonFieldErrorsErrorComponentCodeEnum"
+          },
+          "detail": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "attr",
+          "code",
+          "detail"
+        ]
+      },
+      "PublicApiQueriesCreateNonFieldErrorsErrorComponentAttrEnum": {
+        "enum": [
+          "non_field_errors"
+        ],
+        "type": "string",
+        "description": "* `non_field_errors` - non_field_errors"
+      },
+      "PublicApiQueriesCreateNonFieldErrorsErrorComponentCodeEnum": {
+        "enum": [
+          "invalid"
+        ],
+        "type": "string",
+        "description": "* `invalid` - invalid"
+      },
+      "PublicApiQueriesCreatePromptErrorComponent": {
+        "type": "object",
+        "properties": {
+          "attr": {
+            "$ref": "#/components/schemas/PublicApiQueriesCreatePromptErrorComponentAttrEnum"
+          },
+          "code": {
+            "$ref": "#/components/schemas/PublicApiQueriesCreatePromptErrorComponentCodeEnum"
+          },
+          "detail": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "attr",
+          "code",
+          "detail"
+        ]
+      },
+      "PublicApiQueriesCreatePromptErrorComponentAttrEnum": {
+        "enum": [
+          "prompt"
+        ],
+        "type": "string",
+        "description": "* `prompt` - prompt"
+      },
+      "PublicApiQueriesCreatePromptErrorComponentCodeEnum": {
+        "enum": [
+          "blank",
+          "invalid",
+          "max_length",
+          "min_length",
+          "null",
+          "null_characters_not_allowed",
+          "required",
+          "surrogate_characters_not_allowed"
+        ],
+        "type": "string",
+        "description": "* `blank` - blank\n* `invalid` - invalid\n* `max_length` - max_length\n* `min_length` - min_length\n* `null` - null\n* `null_characters_not_allowed` - null_characters_not_allowed\n* `required` - required\n* `surrogate_characters_not_allowed` - surrogate_characters_not_allowed"
+      },
+      "PublicApiQueriesCreateValidationError": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/PublicApiQueriesCreateValidationErrorTypeEnum"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PublicApiQueriesCreateError"
+            }
+          }
+        },
+        "required": [
+          "errors",
+          "type"
+        ]
+      },
+      "PublicApiQueriesCreateValidationErrorTypeEnum": {
+        "enum": [
+          "validation_error"
+        ],
+        "type": "string",
+        "description": "* `validation_error` - Validation Error"
+      },
+      "PublicApiQueriesPermalinkListErrorResponse400": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ParseErrorResponse"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "client_error": "#/components/schemas/ParseErrorResponse"
+          }
+        }
+      },
+      "PublicApiQueriesResultsListErrorResponse400": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ParseErrorResponse"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "client_error": "#/components/schemas/ParseErrorResponse"
+          }
+        }
+      },
+      "PublicApiSchemaEntityTypesListErrorResponse400": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ParseErrorResponse"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "client_error": "#/components/schemas/ParseErrorResponse"
+          }
+        }
+      },
+      "PublicApiSchemaEntityTypesRetrieveErrorResponse400": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ParseErrorResponse"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "client_error": "#/components/schemas/ParseErrorResponse"
+          }
+        }
+      },
+      "PublicApiSchemaPredicatesListErrorResponse400": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ParseErrorResponse"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "client_error": "#/components/schemas/ParseErrorResponse"
+          }
+        }
+      },
+      "PublicApiSchemaPredicatesRetrieveErrorResponse400": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ParseErrorResponse"
+          }
+        ],
+        "discriminator": {
+          "propertyName": "type",
+          "mapping": {
+            "client_error": "#/components/schemas/ParseErrorResponse"
+          }
+        }
+      },
+      "Type5d3Enum": {
+        "enum": [
+          "client_error"
+        ],
+        "type": "string",
+        "description": "* `client_error` - Client Error"
+      }
+    },
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "apikey"
+      }
+    }
+  }
+}
