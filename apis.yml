@@ -10,7 +10,11 @@ description: >-
   source-cited lists of entities (for example, "companies in the artificial
   intelligence industry"). Authentication is via an API key passed in the
   `apikey` header, responses are cursor-paginated, and the API is documented
-  with an OpenAPI 3.1 specification. Golden is backed by a16z and DCVC.
+  with an OpenAPI 3.1 specification. Golden was founded in San Francisco in
+  2017 by Jude Gomila, raised roughly $59.5M led by a16z with DCVC, Founders
+  Fund, Gigafund and SV Angel participating, and was acquired by financial-
+  crime-intelligence firm ComplyAdvantage in April 2024; the product site,
+  self-serve plans and the Public API v2 host remain live and reachable.
 accessModel:
   pricing: unknown
   onboarding: self-serve
@@ -34,7 +38,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-19'
+modified: '2026-08-14'
 tags:
 - Company
 - Knowledge Graph
@@ -92,13 +96,13 @@ common:
 - type: GettingStarted
   url: https://goldenhq.notion.site/goldenhq/Golden-Guide-1eef7518f3ca43da8d6ee4d54307801b
 - type: Support
-  url: https://golden.com/contact
-- type: Blog
-  url: https://golden.com/blog
+  url: https://support.golden.com/
 - type: Pricing
   url: https://golden.com/pricing
 - type: SignUp
-  url: https://golden.com/login
+  url: https://golden.com/signup
+- type: GitHubOrganization
+  url: https://github.com/goldenrecursion
 - type: TermsOfService
   url: https://golden.com/about/terms-of-service
 - type: PrivacyPolicy
@@ -117,18 +121,24 @@ common:
   url: conformance/golden-conformance.yml
 - type: MCPServer
   url: mcp/golden-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/golden-tool-crosswalk.yml
 - type: LLMsTxt
   url: llms/golden-llms.txt
 - type: AgentSkill
   url: skills/_index.yml
-- type: WellKnown
-  url: well-known/golden-well-known.yml
+- type: Packages
+  url: packages/golden-packages.yml
+- type: Plans
+  url: plans/golden-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/golden-rate-limits.yml
 - type: AgenticAccess
   url: agentic-access/golden-agentic-access.yml
 - type: DomainSecurity
   url: security/golden-domain-security.yml
 x-enrichment:
-  date: '2026-07-19'
-  status: backfilled
+  date: '2026-08-14'
+  status: enriched
+  artifacts_added: 4
   pass: local-v1
-  note: backfilled from .gitignore signal + verified work evidence
