@@ -1,0 +1,109 @@
+generated: '2026-08-14'
+method: derived
+source: mcp/golden-mcp.yml + openapi/_original/golden-openapi-original.json
+status: candidate
+note: >-
+  Golden ships NO MCP server. The tools bound below are the candidate tool set
+  in mcp/golden-mcp.yml, which API Evangelist derived one-to-one from the Golden
+  Public API v2 operations. This crosswalk therefore records a derived-to-real
+  binding, not a vendor-to-vendor one: every `rest` operationId is real and
+  verified present in the specs in openapi/, and every `tool` is our own
+  proposal. Confidence is high on the binding because each candidate tool was
+  generated FROM the operation it maps to, so the tool's real input schema is
+  exactly that operation's parameters. There is no GraphQL surface to bind:
+  golden.com/graphql returns the site's SPA shell (HTTP 200, text/html, no
+  GraphQL endpoint), and the Golden Protocol GraphQL API the godel SDK targeted
+  lived on golden.xyz, which no longer resolves.
+surfaces:
+  openapi:
+    files:
+    - openapi/golden-entity-api-api-openapi.yml
+    - openapi/golden-query-api-api-openapi.yml
+    - openapi/golden-schema-api-api-openapi.yml
+    original: openapi/_original/golden-openapi-original.json
+    live: https://docs.golden.com/openapi.json
+    gated: false
+    note: >-
+      The spec document is anonymously readable (HTTP 200). Calling the API
+      requires an `apikey` header; unauthenticated calls return 403.
+  graphql:
+    endpoint: null
+    gated: null
+    note: >-
+      None. golden.com/graphql is an SPA catch-all; golden.xyz (the protocol
+      GraphQL host) fails DNS resolution as of 2026-08-14.
+  mcp:
+    url: null
+    gated: null
+    note: >-
+      No hosted or local MCP server published by Golden. Searched the MCP
+      registry (registry.modelcontextprotocol.io) — the "golden*" matches all
+      belong to unrelated third-party authors.
+coverage:
+  openapi_operations: 8
+  mcp_tools: 8
+  crosswalked: 8
+  mcp_only: 0
+  rest_only: 0
+crosswalk:
+- tool: list_entities
+  category: entities
+  rest:
+  - public_api_entities_list
+  spec: openapi/golden-entity-api-api-openapi.yml
+  binding: one-to-one
+  confidence: high
+  note: >-
+    Inherits parameters cursor, entityTypeIds, filterPredicateId, filterValue,
+    ids, pageSize, predicateIds.
+- tool: get_entity
+  category: entities
+  rest:
+  - public_api_entities_retrieve
+  spec: openapi/golden-entity-api-api-openapi.yml
+  binding: one-to-one
+  confidence: high
+- tool: get_query_results
+  category: queries
+  rest:
+  - public_api_queries_results_list
+  spec: openapi/golden-query-api-api-openapi.yml
+  binding: one-to-one
+  confidence: high
+- tool: get_query_results_by_permalink
+  category: queries
+  rest:
+  - public_api_queries_permalink_list
+  spec: openapi/golden-query-api-api-openapi.yml
+  binding: one-to-one
+  confidence: high
+- tool: list_entity_types
+  category: schema
+  rest:
+  - public_api_schema_entityTypes_list
+  spec: openapi/golden-schema-api-api-openapi.yml
+  binding: one-to-one
+  confidence: high
+- tool: get_entity_type
+  category: schema
+  rest:
+  - public_api_schema_entityTypes_retrieve
+  spec: openapi/golden-schema-api-api-openapi.yml
+  binding: one-to-one
+  confidence: high
+- tool: list_predicates
+  category: schema
+  rest:
+  - public_api_schema_predicates_list
+  spec: openapi/golden-schema-api-api-openapi.yml
+  binding: one-to-one
+  confidence: high
+- tool: get_predicate
+  category: schema
+  rest:
+  - public_api_schema_predicates_retrieve
+  spec: openapi/golden-schema-api-api-openapi.yml
+  binding: one-to-one
+  confidence: high
+mcp_only: []
+rest_only: []

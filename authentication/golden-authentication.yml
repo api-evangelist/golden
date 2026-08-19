@@ -1,6 +1,8 @@
-generated: '2026-07-19'
+generated: '2026-08-14'
 method: searched
-source: openapi/golden-openapi-original.json
+source: >-
+  openapi/golden-openapi-original.json, re-confirmed against the live spec at
+  https://docs.golden.com/openapi.json and a live unauthenticated call
 docs: https://docs.golden.com
 summary:
   types:
@@ -19,3 +21,27 @@ schemes:
     is a static service credential.
   sources:
   - openapi/golden-openapi-original.json
+  - https://docs.golden.com/openapi.json
+oauth: false
+oauth_note: >-
+  No OAuth or OpenID Connect surface exists. golden.com returns HTTP 404 for
+  /.well-known/openid-configuration, /.well-known/oauth-authorization-server and
+  /.well-known/oauth-protected-resource. No scopes/ artifact is emitted: an
+  api-key-only provider has no scope surface.
+x-evidence:
+  checked: '2026-08-14'
+  probes:
+  - url: https://docs.golden.com/openapi.json
+    status: 200
+    finding: 'components.securitySchemes: {"ApiKeyAuth": {"type": "apiKey", "in": "header", "name": "apikey"}}'
+  - url: https://golden.com/api/v2/public/entities/?pageSize=1
+    status: 403
+    finding: >-
+      The live API names the header itself in the failure message —
+      {"type":"client_error","errors":[{"code":"permission_denied","detail":"You
+      didn't pass a valid API Key in the 'apikey' header.","attr":null}]} —
+      confirming the scheme is enforced in production and not just declared in
+      the spec.
+  - url: https://golden.com/.well-known/openid-configuration
+    status: 404
+    finding: no OIDC discovery document

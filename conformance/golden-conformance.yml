@@ -1,10 +1,21 @@
-generated: '2026-07-19'
+generated: '2026-08-14'
 method: derived
 source: openapi/golden-openapi-original.json
+checked: '2026-08-14'
+compliance_program:
+  published: false
+  certifications: []
+  note: >-
+    Golden publishes no compliance or certification program — no trust center,
+    no SOC 2 / ISO 27001 / PCI / HIPAA / FedRAMP claim, no security policy page
+    and no /.well-known/security.txt (probed 404). No Compliance, TrustCenter,
+    Security or VulnerabilityDisclosure pointer is emitted.
 standards:
 - id: openapi-3.1
   conforms: true
-  evidence: Spec is OpenAPI 3.1.0, served at https://docs.golden.com/openapi.json
+  evidence: >-
+    Spec is OpenAPI 3.1.0, live at https://docs.golden.com/openapi.json (HTTP
+    200, application/json, 63998 bytes, re-fetched 2026-08-14)
 - id: apikey-auth
   conforms: true
   evidence: securitySchemes ApiKeyAuth (apiKey in header `apikey`)

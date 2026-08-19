@@ -1,0 +1,77 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  https://docs.golden.com/openapi.json (live spec, HTTP 200 2026-08-14) plus a
+  live unauthenticated probe of https://golden.com/api/v2/public/entities/
+docs: https://docs.golden.com
+limit_count: 0
+limits: []
+note: >-
+  Golden publishes NO numeric rate limit for the Public API v2. The OpenAPI
+  declares a 429 response on every operation with the machine-readable code
+  `throttled` and the detail string "Request was throttled.", and the pricing
+  page meters a monthly "data credits" allowance per plan — but no requests-per-
+  second, per-minute, per-hour or per-day figure is stated anywhere on the
+  developer surface, and no burst allowance is described. An integrator cannot
+  size a client from the published material. Recorded as limit_count 0: an
+  honest zero, not an unchecked field.
+exhaustion:
+  status_code: 429
+  error_code: throttled
+  error_detail: Request was throttled.
+  envelope: >-
+    Standard Golden error envelope — {"type": "...", "errors": [{"code":
+    "throttled", "detail": "...", "attr": null}]}. See
+    errors/golden-problem-types.yml.
+response_headers:
+  published: []
+  observed: []
+  retry_after: false
+  note: >-
+    No X-RateLimit-*, RateLimit-* (RFC 9331 draft) or Retry-After header is
+    declared in the OpenAPI, and none appeared on the live unauthenticated
+    response observed on 2026-08-14. An agent has no runtime signal for
+    remaining quota or reset time — it can only react to a 429 after the fact.
+quota:
+  model: monthly data credits per plan
+  tiers:
+    Free: 10
+    Team: 125
+    Business: 2500
+    Enterprise: custom
+  source: https://golden.com/pricing
+  see: plans/golden-plans-pricing.yml
+  note: >-
+    Credits are the commercial meter, not a rate limit, and Golden does not
+    publish a credit-per-request conversion.
+plan_linked_limits:
+- parameter: pageSize
+  scope: per-request
+  free_plan_default: 2
+  paid_plan_default: 10
+  maximum: 100
+  source: >-
+    OpenAPI parameter description on the query and entity list operations:
+    "Number of results to return per page. The default value is 2 for Free Plan
+    and 10 for Any Paid Plan. The maximum value is 100."
+  note: >-
+    The only plan-differentiated runtime limit Golden actually publishes. It
+    caps page size, not request rate.
+x-evidence:
+  checked: '2026-08-14'
+  probes:
+  - url: https://docs.golden.com/openapi.json
+    status: 200
+    finding: >-
+      OpenAPI 3.1.0, 8 operations, 429 `throttled` declared; no rate-limit
+      headers described
+  - url: https://golden.com/api/v2/public/entities/?pageSize=1
+    status: 403
+    finding: >-
+      live unauthenticated call returned
+      {"type":"client_error","errors":[{"code":"permission_denied","detail":"You
+      didn't pass a valid API Key in the 'apikey' header.","attr":null}]} with no
+      rate-limit response headers present
+  - url: https://golden.com/pricing
+    status: 200
+    finding: monthly data-credit quotas per tier; no request-rate figures

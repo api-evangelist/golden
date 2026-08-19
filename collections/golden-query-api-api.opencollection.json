@@ -1,0 +1,104 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Golden API v2 Entity API Query API API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Query API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get query results by query id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://golden.com/api/v2/public/queries/:id/results/",
+            "params": [
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "The pagination cursor value."
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "A unique integer value identifying this query."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page.\nThe default value is 2 for Free Plan and 10 for Any Paid Plan.\nThe maximum value is 100."
+              },
+              {
+                "name": "predicateIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated Predicate ID(s) to restrict returned properties. Returns just the name property if not set."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get query results by query id"
+        },
+        {
+          "info": {
+            "name": "Get query results by query permalink",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://golden.com/api/v2/public/queries/permalink/:permalink/",
+            "params": [
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "The pagination cursor value."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page.\nThe default value is 2 for Free Plan and 10 for Any Paid Plan.\nThe maximum value is 100."
+              },
+              {
+                "name": "permalink",
+                "value": "",
+                "type": "path",
+                "description": "A permalink identifying this query."
+              },
+              {
+                "name": "predicateIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated Predicate ID(s) to restrict returned properties. Returns just the name property if not set."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get query results by query permalink"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

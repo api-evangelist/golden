@@ -1,0 +1,130 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Golden API v2 Entity API Schema API API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Schema API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get entity types schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://golden.com/api/v2/public/schema/entityTypes/",
+            "params": [
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "The pagination cursor value."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page.\n The default value is 100 and the maximum 100."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get entity types schema"
+        },
+        {
+          "info": {
+            "name": "Get entity type schema by entity type id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://golden.com/api/v2/public/schema/entityTypes/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "A unique integer value identifying this entity type."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get entity type schema by entity type id"
+        },
+        {
+          "info": {
+            "name": "Get predicates schema",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://golden.com/api/v2/public/schema/predicates/",
+            "params": [
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "The pagination cursor value."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page.\n The default value is 100 and the maximum 100."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get predicates schema"
+        },
+        {
+          "info": {
+            "name": "Get predicate schema by predicate id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://golden.com/api/v2/public/schema/predicates/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "A unique string value identifying this predicate."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get predicate schema by predicate id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

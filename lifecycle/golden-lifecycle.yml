@@ -1,7 +1,22 @@
-generated: '2026-07-19'
+generated: '2026-08-14'
 method: searched
-source: https://docs.golden.com
+source: https://golden.com/ + https://docs.golden.com/ + live DNS/HTTP probes
 docs: https://docs.golden.com
+company_status:
+  state: acquired
+  acquirer: ComplyAdvantage
+  announced: '2024-04-24'
+  source: https://golden.com/
+  note: >-
+    golden.com's home page is now an acquisition notice: "Golden — the knowledge
+    graph now part of ComplyAdvantage". It states that on 24 April 2024
+    ComplyAdvantage acquired Golden, that Golden's data-extraction and
+    entity-disambiguation methods now feed ComplyAdvantage's ingestion pipeline,
+    that Golden's AI/LLM specialists joined ComplyAdvantage's data science team,
+    and that founder Jude Gomila became a ComplyAdvantage board observer and
+    special advisor. The product site (pricing, signup, query, docs) and the
+    Public API v2 host are nonetheless still live and self-serve as of
+    2026-08-14.
 versioning:
   scheme: uri-path
   current: v2
@@ -12,10 +27,84 @@ versioning:
 deprecation:
   policy_url: null
   sunset_header: false
-  note: No published deprecation policy or RFC 8594 Sunset/Deprecation header support found.
+  note: >-
+    No published deprecation policy and no RFC 8594 Sunset/Deprecation header
+    support. No Deprecation pointer is wired in apis.yml.
+  observed_decommissions:
+  - subject: docs.golden.com rendering pipeline
+    date: '2026-07-02'
+    evidence: >-
+      An HTML comment served in the docs page reads verbatim: "Scalar API
+      reference. Static snapshot of the Golden API v2 spec, previously proxied
+      from the entity-graph API server (pathfinder, decommissioned 2026-07-02)."
+      The docs are therefore a frozen snapshot, no longer generated from a live
+      server, and the host answers 200 with the same shell for every path.
+    source: https://docs.golden.com/
+  - subject: Golden Protocol (golden.xyz) and its GraphQL API
+    date: null
+    evidence: >-
+      golden.xyz, docs.golden.xyz and dapp.golden.xyz all fail DNS resolution
+      (SERVFAIL) as of 2026-08-14. The first-party godel Python SDK, still
+      pushed to GitHub on 2026-08-06, documents this host as its API target and
+      its documentation home. No deprecation notice was published.
+    source: https://github.com/goldenrecursion/godel
+  - subject: first-party PyPI distributions (godel, goldnlp)
+    date: null
+    evidence: >-
+      Both PyPI projects still exist and report project-status "active", but the
+      PEP 691 index lists zero versions and zero files for each, so the
+      published SDKs are no longer installable. See
+      packages/golden-packages.yml.
+    source: https://pypi.org/simple/godel/
 sla:
   url: null
   uptime_target: null
 status_page: null
-status_page_note: No status/uptime page found (status.golden.com does not resolve).
+status_page_note: >-
+  No status or uptime page. status.golden.com returns NXDOMAIN (probed
+  2026-08-14). No StatusPage pointer is wired in apis.yml.
+changelog:
+  url: null
+  note: >-
+    No changelog is published. https://golden.com/changelog returns HTTP 200 but
+    serves the site's SPA catch-all shell — nav and footer chrome only, no
+    changelog content — as do /help, /api-docs and /graphql. No ChangeLog
+    artifact or pointer is emitted.
+support:
+  url: https://support.golden.com/
+  email: hello@golden.com
+  note: >-
+    support.golden.com is a real, machine-readable static page listing the
+    support email and links to /docs, /pricing and /settings. It is the only
+    support surface that returns content; https://golden.com/contact returns the
+    SPA catch-all shell.
+blog:
+  url: null
+  note: >-
+    The blog is gone. https://golden.com/blog returns HTTP 302 to
+    http://golden.com/home. The Blog pointer has been removed from apis.yml.
 deprecated_operations: []
+x-evidence:
+  checked: '2026-08-14'
+  probes:
+  - url: https://golden.com/
+    status: 200
+    finding: acquisition notice — ComplyAdvantage, 24 April 2024
+  - url: https://docs.golden.com/
+    status: 200
+    finding: static Scalar snapshot; "pathfinder, decommissioned 2026-07-02"
+  - url: https://docs.golden.com/openapi.json
+    status: 200
+    finding: OpenAPI 3.1.0 still served, application/json, 63998 bytes
+  - url: https://golden.com/blog
+    status: 302
+    finding: redirects to http://golden.com/home
+  - url: https://golden.com/changelog
+    status: 200
+    finding: SPA catch-all shell, no changelog content
+  - url: https://status.golden.com/
+    status: 0
+    finding: NXDOMAIN
+  - url: https://golden.xyz/
+    status: 0
+    finding: SERVFAIL

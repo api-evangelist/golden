@@ -1,19 +1,22 @@
 # Golden
 
-> Golden is a company-data and knowledge-graph platform. The Golden Public API v2 gives developers read access to the knowledge graph: entities and their citation-backed properties, the schema of entity types and predicates, and natural-language Query results (curated, source-cited lists of entities). Authentication is via an API key in the `apikey` header; responses are cursor-paginated.
+> Golden is a company-data and knowledge-graph platform. The Golden Public API v2 gives developers read access to the knowledge graph: entities and their citation-backed properties, the schema of entity types and predicates, and natural-language Query results (curated, source-cited lists of entities). Authentication is via an API key in the `apikey` header; responses are cursor-paginated. Golden was acquired by ComplyAdvantage in April 2024; the product site and the Public API v2 host are still live and self-serve.
 
 ## APIs
 
 - [Golden Public API v2](https://docs.golden.com): Read access to entities, schema (entity types + predicates), and Query results. Base URL https://golden.com/api/v2/public
-- [OpenAPI 3.1 specification](https://docs.golden.com/openapi.json): Machine-readable spec for the public API
+- [OpenAPI 3.1 specification](https://docs.golden.com/openapi.json): Machine-readable spec for the public API (verified live 2026-08-14)
 
 ## Docs
 
-- [API Documentation](https://docs.golden.com): Scalar-rendered API reference
-- [Golden Guide (getting started)](https://goldenhq.notion.site/goldenhq/Golden-Guide-1eef7518f3ca43da8d6ee4d54307801b): Product and API guide
+- [API Documentation](https://docs.golden.com): Scalar-rendered API reference. Note: a static snapshot — the docs host answers HTTP 200 with the same HTML shell for every path, so only /openapi.json carries content.
+- [Golden Guide (getting started)](https://goldenhq.notion.site/goldenhq/Golden-Guide-1eef7518f3ca43da8d6ee4d54307801b): Product and API guide, hosted on Notion (JavaScript-rendered; not machine-readable)
 - [Pricing](https://golden.com/pricing)
-- [Blog](https://golden.com/blog)
+- [Support](https://support.golden.com/): hello@golden.com
+- [Sign up](https://golden.com/signup)
+- [GitHub organization](https://github.com/goldenrecursion)
 - [Terms of Service](https://golden.com/about/terms-of-service)
+- [Enterprise Terms of Service](https://golden.com/about/enterprise-terms-of-service)
 - [Privacy Policy](https://golden.com/about/privacy-policy)
 
 ## Operations
@@ -29,7 +32,21 @@
 
 ## Auth
 
-- API key in the `apikey` request header (ApiKeyAuth). No OAuth.
+- API key in the `apikey` request header (ApiKeyAuth). No OAuth, no OIDC, no scopes.
+- Unauthenticated calls return HTTP 403 `permission_denied`.
+
+## Limits and plans
+
+- Plans are metered in monthly "data credits": Free 10, Team $25/mo 125, Business $500/mo 2,500, Enterprise custom.
+- No numeric rate limit is published. Exhaustion surfaces as HTTP 429 with code `throttled`; no rate-limit response headers are returned.
+- pageSize defaults to 2 on the Free plan and 10 on any paid plan; maximum 100.
+
+## Not published
+
+- No MCP server, no A2A agent card, no GraphQL endpoint, no webhooks or event surface.
+- No /.well-known/ documents on any Golden host.
+- No changelog, no status page, no deprecation policy, no security.txt, no trust center.
+- No installable first-party client library (the godel and goldnlp PyPI projects have had all releases removed).
 
 ## Artifacts (API Evangelist)
 
@@ -39,5 +56,10 @@
 - Data model: data-model/golden-data-model.yml
 - Lifecycle: lifecycle/golden-lifecycle.yml
 - Conformance: conformance/golden-conformance.yml
-- MCP (candidate): mcp/golden-mcp.yml
+- Plans and pricing: plans/golden-plans-pricing.yml
+- Rate limits: rate-limits/golden-rate-limits.yml
+- Packages: packages/golden-packages.yml
+- Well-known probe (all misses): well-known/golden-well-known.yml
+- MCP (candidate, no server ships): mcp/golden-mcp.yml
+- Tool crosswalk: mcp/golden-tool-crosswalk.yml
 - Agent skills: skills/_index.yml

@@ -1,6 +1,8 @@
-generated: '2026-07-19'
-method: derived
-source: openapi/golden-openapi-original.json
+generated: '2026-08-14'
+method: searched
+source: >-
+  openapi/golden-openapi-original.json, confirmed against the live spec at
+  https://docs.golden.com/openapi.json and one live unauthenticated call
 format: json
 envelope:
   description: >-
@@ -51,3 +53,23 @@ problems:
   remediation: Retry with backoff; contact Golden support if it persists.
   source_operations:
   - openapi/golden-openapi-original.json#public_api_entities_list
+x-evidence:
+  checked: '2026-08-14'
+  probes:
+  - url: https://golden.com/api/v2/public/entities/?pageSize=1
+    status: 403
+    content_type: application/json
+    body: >-
+      {"type":"client_error","errors":[{"code":"permission_denied","detail":"You
+      didn't pass a valid API Key in the 'apikey' header.","attr":null}]}
+    finding: >-
+      The live API emits exactly the envelope the spec declares — a top-level
+      `type` discriminator plus an `errors[]` array of {code, detail, attr}. The
+      derived catalog above is confirmed against production, not only against
+      the document.
+  - url: https://docs.golden.com/openapi.json
+    status: 200
+    finding: >-
+      429 `throttled` ("Request was throttled.") is declared on every operation;
+      no application/problem+json media type is used anywhere, so this is a
+      vendor envelope rather than RFC 9457 problem details.

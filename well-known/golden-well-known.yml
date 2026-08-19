@@ -1,17 +1,108 @@
-generated: '2026-07-19'
+generated: '2026-08-14'
 method: searched
-host: https://golden.com
-documents:
-- path: /.well-known/security.txt
-  status: 404
-- path: /.well-known/openid-configuration
-  status: 404
-- path: /.well-known/oauth-authorization-server
-  status: 404
-- path: /.well-known/api-catalog
-  status: 404
-- path: /.well-known/ai-plugin.json
-  status: 404
+source: live probes of every Golden host named in apis.yml and OpenAPI servers[]
+result: none
 note: >-
-  No /.well-known/ discovery documents are published on golden.com (all probed
-  paths returned 404). Recorded as valid absence.
+  Golden publishes NO /.well-known/ discovery document on any host. No
+  WellKnown or SecurityTxt pointer is wired in apis.yml, because this file
+  records an absence, not a presence.
+hosts:
+- host: https://golden.com
+  note: >-
+    API host and OpenAPI servers[0]. Returns a real HTTP 404 for every
+    /.well-known/ path probed.
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+  - path: /security.txt
+    status: 404
+- host: https://docs.golden.com
+  note: >-
+    FALSE-POSITIVE HOST — do not credit. The docs host is a single static
+    Scalar page that answers HTTP 200 with the same 677-byte HTML shell for
+    EVERY path, including paths that cannot exist. A control probe of
+    /.well-known/this-path-does-not-exist-ae-probe returned the identical
+    200/text/html/677 response. None of the 200s below carries a document; all
+    are counted as misses.
+  catch_all: true
+  control_probe:
+    path: /.well-known/this-path-does-not-exist-ae-probe
+    status: 200
+    content_type: text/html; charset=utf-8
+    bytes: 677
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html; charset=utf-8
+    bytes: 677
+    hit: false
+    reason: SPA/static HTML shell, not a document
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html; charset=utf-8
+    bytes: 677
+    hit: false
+    reason: SPA/static HTML shell, not a document
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html; charset=utf-8
+    bytes: 677
+    hit: false
+    reason: SPA/static HTML shell, not a document
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: text/html; charset=utf-8
+    bytes: 677
+    hit: false
+    reason: SPA/static HTML shell, not a document
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html; charset=utf-8
+    bytes: 677
+    hit: false
+    reason: SPA/static HTML shell, not a document
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html; charset=utf-8
+    bytes: 677
+    hit: false
+    reason: SPA/static HTML shell, not a document
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: text/html; charset=utf-8
+    bytes: 677
+    hit: false
+    reason: >-
+      SPA/static HTML shell, not an AgentCard. Nothing is written to a2a/ and no
+      AgentCard pointer is emitted.
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: text/html; charset=utf-8
+    bytes: 677
+    hit: false
+    reason: SPA/static HTML shell, not an AgentCard
+- host: https://api.golden.com
+  note: host answers HTTP 404 at the root; no API served here
+  documents:
+  - path: /
+    status: 404
+summary:
+  hosts_probed: 3
+  paths_probed: 19
+  real_documents: 0
+  false_positive_200s: 8
+checked: '2026-08-14'

@@ -1,0 +1,110 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Golden API v2 Entity API API",
+    "version": "2.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Entity API",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get entities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://golden.com/api/v2/public/entities/",
+            "params": [
+              {
+                "name": "cursor",
+                "value": "",
+                "type": "query",
+                "description": "The pagination cursor value."
+              },
+              {
+                "name": "entityTypeIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated Entity type ID(s) to restrict to (use schema API above to retrieve all available entity types)."
+              },
+              {
+                "name": "filterPredicateId",
+                "value": "",
+                "type": "query",
+                "description": "Set a predicate filter by using filterPredicateId and filterValue query params. filterPredicateId is the ID of the predicate to be used. See predicate schema isFilterable field for supported predicate IDs."
+              },
+              {
+                "name": "filterValue",
+                "value": "",
+                "type": "query",
+                "description": "Set a predicate filter by using filterPredicateId and filterValue query params. filterValue is the value to be used for the filter."
+              },
+              {
+                "name": "ids",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated entity IDs to restrict returned entities."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page.\nThe default value is 2 for Free Plan and 10 for Any Paid Plan.\nThe maximum value is 100."
+              },
+              {
+                "name": "predicateIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated Predicate ID(s) to restrict returned properties. Returns just the name property if not set."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get entities"
+        },
+        {
+          "info": {
+            "name": "Get entity by id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://golden.com/api/v2/public/entities/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "A unique integer value identifying this entity."
+              },
+              {
+                "name": "predicateIds",
+                "value": "",
+                "type": "query",
+                "description": "Comma separated Predicate ID(s) to restrict returned properties. Returns just the name property if not set."
+              }
+            ],
+            "auth": {
+              "type": "apikey",
+              "key": "apikey",
+              "value": "{{apikey}}",
+              "placement": "header"
+            }
+          },
+          "docs": "Get entity by id"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

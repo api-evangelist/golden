@@ -1,0 +1,96 @@
+generated: '2026-08-14'
+method: searched
+source: >-
+  https://github.com/goldenrecursion (Golden's own GitHub organization, blog
+  field www.golden.com) plus registry metadata from pypi.org and
+  registry.npmjs.org.
+summary:
+  official_packages: 2
+  installable_today: 0
+  note: >-
+    Golden ships no client library for the Golden Public API v2 (the REST API
+    profiled in this repo). The two first-party packages that exist were built
+    for the separate Golden Protocol GraphQL API on golden.xyz, a domain that
+    no longer resolves. Both PyPI projects still exist as reserved names but
+    every release file has been removed, so `pip install godel` and
+    `pip install goldnlp` both fail. No SDKs pointer is emitted for this
+    provider: there is no installable first-party client for any Golden API.
+packages:
+- language: python
+  registry: pypi
+  name: godel
+  url: https://pypi.org/project/godel/
+  repository: https://github.com/goldenrecursion/godel
+  install: pip install godel
+  official: true
+  version: null
+  published: null
+  license: Apache-2.0
+  status: releases-removed
+  note: >-
+    "Godel is Golden's open-source Python SDK that will provide developers and
+    agents with the tools and means to build applications and extend Golden's
+    protocol." The PyPI project page returns HTTP 200 and
+    /simple/godel/ reports project-status "active", but the PEP 691 JSON index
+    lists zero versions and zero files, so there is nothing to install and no
+    registry metadata to read a version or publish date from — hence
+    version/published null rather than a guess. The repository's
+    pyproject.toml on master declares version 0.8.0, which is the last version
+    the source tree names but not a fact the registry confirms. The SDK targets
+    the Golden Protocol GraphQL API (its quickstart reads a JWT from
+    https://dapp.golden.xyz/profile); golden.xyz, docs.golden.xyz and
+    dapp.golden.xyz all fail DNS resolution as of 2026-08-14, so the API this
+    SDK wraps is gone. It does NOT wrap the Golden Public API v2 REST surface.
+- language: python
+  registry: pypi
+  name: goldnlp
+  url: https://pypi.org/project/goldnlp/
+  repository: https://github.com/goldenrecursion/goldnlp
+  install: pip install goldnlp
+  official: true
+  version: null
+  published: null
+  status: releases-removed
+  note: >-
+    Golden's NLP/NLU python package and framework for the Golden Knowledge
+    Graph. Same shape as godel: the PyPI project name is reserved and reports
+    project-status "active", but the JSON index returns
+    {"files": [], "versions": []} — no installable distribution, so no version
+    or publish date exists to record.
+absent:
+- registry: npm
+  checked:
+  - golden-api
+  - goldenapi
+  - "@golden/sdk"
+  - golden-sdk
+  - godel
+  result: no first-party Golden JavaScript client published (all 404)
+- registry: pypi
+  checked:
+  - golden
+  result: >-
+    pypi.org/project/golden/ exists but belongs to a third party (author
+    "Terros", home page github.com/terrosdesigns/golden). Not Golden's — excluded.
+- registry: maven-central / nuget / rubygems / packagist / crates.io / pkg.go.dev
+  result: no first-party Golden client library found
+x-evidence:
+  checked: '2026-08-14'
+  probes:
+  - url: https://pypi.org/simple/godel/
+    status: 200
+    finding: PEP 691 index returns zero versions and zero files
+  - url: https://pypi.org/pypi/godel/json
+    status: 404
+    finding: JSON metadata API 404s because the project has no releases
+  - url: https://pypi.org/simple/goldnlp/
+    status: 200
+    finding: '{"files": [], "versions": []}'
+  - url: https://github.com/goldenrecursion/godel
+    status: 200
+    finding: >-
+      repo live, Apache-2.0, last push 2026-08-06, homepage
+      https://docs.golden.xyz/godel-python-sdk (host does not resolve)
+  - url: https://golden.xyz/
+    status: 0
+    finding: DNS SERVFAIL — the protocol API the SDK targets is gone

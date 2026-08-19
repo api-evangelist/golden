@@ -1,22 +1,27 @@
-generated: '2026-07-19'
+generated: '2026-08-14'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
+- host: docs.golden.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Sep 30 10:58:48 2026 GMT
+  hsts: false
 - host: golden.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Aug 25 07:32:13 2026 GMT
+  cert_expires: Oct 23 11:52:29 2026 GMT
   hsts: false
 domains:
 - domain: golden.com
   dnssec: false
   caa:
-  - 0 iodef "mailto:hello@golden-support.com"
-  - 0 issue "comodoca.com"
-  - 0 issue "digicert.com; cansignhttpexchanges=yes"
-  - 0 issue "letsencrypt.org"
   - 0 issue "pki.goog; cansignhttpexchanges=yes"
   - 0 issue "ssl.com"
+  - 0 issuewild "comodoca.com"
+  - 0 issuewild "digicert.com; cansignhttpexchanges=yes"
+  - 0 issuewild "letsencrypt.org"
+  - 0 issuewild "pki.goog; cansignhttpexchanges=yes"
   spf: true
   dmarc: true
   dmarc_policy: quarantine

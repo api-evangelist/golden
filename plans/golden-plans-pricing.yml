@@ -1,0 +1,84 @@
+generated: '2026-08-14'
+method: searched
+source: https://golden.com/pricing
+docs: https://golden.com/pricing
+currency: USD
+billing_period: month
+unit: data credit
+unit_note: >-
+  Golden meters usage in "data credits" per month rather than in API calls.
+  The pricing page does not publish a credit-to-request conversion, so an
+  integrator cannot compute an API request budget from the published tiers.
+plan_count: 4
+plans:
+- name: Free
+  price: 0
+  currency: USD
+  period: month
+  included_quota:
+    data_credits: 10
+  features:
+  - Browse 300,000+ topics
+  - Search and explore the knowledge graph
+  cta: Sign up free
+  cta_url: https://golden.com/signup
+  api_access: >-
+    Not stated on the pricing page. The OpenAPI does tie a runtime default to
+    this tier: pageSize defaults to 2 on the Free Plan (10 on any paid plan).
+- name: Team
+  price: 25
+  currency: USD
+  period: month
+  included_quota:
+    data_credits: 125
+  features:
+  - CSV and list exports
+  - Saved queries
+  - Team workspace
+  cta: Upgrade to Team
+  cta_url: https://golden.com/upgrade/pricing?tier=team
+- name: Business
+  price: 500
+  currency: USD
+  period: month
+  included_quota:
+    data_credits: 2500
+  features:
+  - Everything in Team
+  - Full query tool access
+  - Priority support
+  cta: Upgrade to Business
+  cta_url: https://golden.com/upgrade/pricing?tier=business
+- name: Enterprise
+  price: null
+  price_model: custom
+  currency: USD
+  period: month
+  included_quota:
+    data_credits: custom
+  features:
+  - Custom data volumes and credits
+  - API at scale
+  - Data requests and enrichment
+  - Dedicated support
+  cta: Contact us
+  cta_url: mailto:hello@golden.com
+overage:
+  published: false
+  note: >-
+    No overage rate, credit top-up price, or hard-stop behaviour is published
+    on the pricing page.
+notes:
+- >-
+  "API at scale" is listed only under Enterprise. The three self-serve tiers
+  do not state whether the Golden Public API v2 is included, so an integrator
+  cannot tell from the pricing page which paid tier unlocks API access.
+- >-
+  The pricing page is live and self-serve as of 2026-08-14 even though Golden
+  was acquired by ComplyAdvantage in April 2024 and golden.com's own home page
+  now reads as an acquisition notice. See lifecycle/golden-lifecycle.yml.
+x-evidence:
+  fetched: '2026-08-14'
+  url: https://golden.com/pricing
+  http_status: 200
+  content_type: text/html
