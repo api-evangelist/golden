@@ -15,6 +15,18 @@ description: >-
   Fund, Gigafund and SV Angel participating, and was acquired by financial-
   crime-intelligence firm ComplyAdvantage in April 2024; the product site,
   self-serve plans and the Public API v2 host remain live and reachable.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: unknown
   onboarding: self-serve
