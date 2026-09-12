@@ -100,6 +100,8 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Website
+  url: https://www.golden.com/
 - type: Overlay
   url: overlays/golden-openapi-overlay.yaml
 - type: DeveloperPortal
