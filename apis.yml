@@ -1,20 +1,15 @@
 aid: golden
 name: Golden
-description: >-
-  Golden is a company-data and knowledge-graph platform that builds a
-  continuously updated, citation-backed map of companies, technologies,
-  people, and the relationships between them. The Golden Public API v2 gives
-  developers programmatic, read access to that knowledge graph: retrieve
-  entities and their properties, resolve the schema of entity types and
-  predicates, and run natural-language Queries that return curated,
-  source-cited lists of entities (for example, "companies in the artificial
-  intelligence industry"). Authentication is via an API key passed in the
-  `apikey` header, responses are cursor-paginated, and the API is documented
-  with an OpenAPI 3.1 specification. Golden was founded in San Francisco in
-  2017 by Jude Gomila, raised roughly $59.5M led by a16z with DCVC, Founders
-  Fund, Gigafund and SV Angel participating, and was acquired by financial-
-  crime-intelligence firm ComplyAdvantage in April 2024; the product site,
-  self-serve plans and the Public API v2 host remain live and reachable.
+description: 'Golden is a company-data and knowledge-graph platform that builds a continuously updated,
+  citation-backed map of companies, technologies, people, and the relationships between them. The Golden
+  Public API v2 gives developers programmatic, read access to that knowledge graph: retrieve entities
+  and their properties, resolve the schema of entity types and predicates, and run natural-language Queries
+  that return curated, source-cited lists of entities (for example, "companies in the artificial intelligence
+  industry"). Authentication is via an API key passed in the `apikey` header, responses are cursor-paginated,
+  and the API is documented with an OpenAPI 3.1 specification. Golden was founded in San Francisco in
+  2017 by Jude Gomila, raised roughly $59.5M led by a16z with DCVC, Founders Fund, Gigafund and SV Angel
+  participating, and was acquired by financial- crime-intelligence firm ComplyAdvantage in April 2024;
+  the product site, self-serve plans and the Public API v2 host remain live and reachable.'
 deliveryModel:
   model: saas
   open_source: false
@@ -53,7 +48,7 @@ x-tier: stub
 x-tier-reason: portfolio-lead
 specificationVersion: '0.23'
 created: '2026-07-17'
-modified: '2026-08-14'
+modified: '2026-09-16'
 tags:
 - Company
 - Knowledge Graph
@@ -65,7 +60,7 @@ tags:
 - Business Intelligence
 apis:
 - aid: golden:golden-entity-api-api
-  name: Golden Entity API API
+  name: Golden Entity API
   description: The Entity API API from Golden — 2 operation(s) for entity api.
   humanURL: https://docs.golden.com
   baseURL: https://golden.com/api/v2/public
@@ -75,7 +70,7 @@ apis:
   - type: OpenAPI
     url: openapi/golden-entity-api-api-openapi.yml
 - aid: golden:golden-query-api-api
-  name: Golden Query API API
+  name: Golden Query API
   description: The Query API API from Golden — 2 operation(s) for query api.
   humanURL: https://docs.golden.com
   baseURL: https://golden.com/api/v2/public
@@ -85,7 +80,7 @@ apis:
   - type: OpenAPI
     url: openapi/golden-query-api-api-openapi.yml
 - aid: golden:golden-schema-api-api
-  name: Golden Schema API API
+  name: Golden Schema API
   description: The Schema API API from Golden — 4 operation(s) for schema api.
   humanURL: https://docs.golden.com
   baseURL: https://golden.com/api/v2/public
@@ -138,7 +133,10 @@ common:
   url: conformance/golden-conformance.yml
 - type: X-MCPServerCandidate
   url: mcp/golden-mcp.yml
-  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate — a tool list derived from the published API contracts, not an existing server. The scorer already read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type surfaces with a server that does not exist.'
+  note: 'Renamed from MCPServer 2026-09-03 (roadmap#247): the manifest self-describes as status: candidate
+    — a tool list derived from the published API contracts, not an existing server. The scorer already
+    read the manifest and reported mcp_server correctly; the MCPServer type was crediting the artifact-type
+    surfaces with a server that does not exist.'
 - type: ToolCrosswalk
   url: mcp/golden-tool-crosswalk.yml
 - type: LLMsTxt
