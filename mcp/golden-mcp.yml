@@ -35,33 +35,22 @@ tools:
   source_operation: openapi/golden-openapi-original.json#public_api_schema_predicates_retrieve
 deployment:
   mode: none
-  endpoint: null
-  install: null
-  package: null
-  auth: api-key
-  auth_note: >-
-    If a server is ever built from this candidate tool list it inherits the API's
-    only credential — an `apikey` request header. There is no OAuth surface.
-  verified: searched
+  verified: derived
   tools: 8
-  checked: '2026-08-14'
-  source: catalog MCP census + a fresh registry and docs search
+  checked: '2026-08-12'
+  source: catalog MCP census
 crosswalk: mcp/golden-tool-crosswalk.yml
 x-evidence:
   checked: '2026-08-14'
   probes:
   - url: https://registry.modelcontextprotocol.io/v0/servers?search=golden
     status: 200
-    finding: >-
-      30 results, none published by Golden. Every "golden*" match belongs to an
-      unrelated third-party author (io.github.Goldentrii/*,
-      io.github.benseverndev-oss/golden*). No io.github.goldenrecursion or
-      golden.com entry exists.
+    finding: 30 results, none published by Golden. Every "golden*" match belongs to an unrelated third-party
+      author (io.github.Goldentrii/*, io.github.benseverndev-oss/golden*). No io.github.goldenrecursion
+      or golden.com entry exists.
   - url: https://docs.golden.com/
     status: 200
-    finding: >-
-      docs surface names no MCP endpoint; it is a static Scalar snapshot of the
-      REST spec only
+    finding: docs surface names no MCP endpoint; it is a static Scalar snapshot of the REST spec only
   - url: https://golden.com/graphql
     status: 200
     finding: SPA catch-all shell, not a GraphQL endpoint — no alternate surface to wrap

@@ -1,9 +1,7 @@
 {
   "provider": "golden",
   "sources": [
-    "golden-entity-api-api-openapi.yml",
-    "golden-query-api-api-openapi.yml",
-    "golden-schema-api-api-openapi.yml"
+    "_original/golden-openapi-original.json"
   ],
   "outputs": [
     "golden-entity-api-api-openapi.yml",
@@ -13,6 +11,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "golden-openapi-original.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "golden-openapi-original.json: declared missing tag: Entity API",
+    "golden-openapi-original.json: declared missing tag: Query API",
+    "golden-openapi-original.json: declared missing tag: Schema API",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "golden-entity-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "golden-query-api-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "golden-schema-api-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
