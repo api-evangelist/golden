@@ -236,7 +236,17 @@ paths:
           description: ''
 components:
   schemas:
-    ErrorResponse429:
+    ParseErrorCodeEnum:
+      enum:
+      - parse_error
+      type: string
+      description: '* `parse_error` - Parse Error'
+    Type5d3Enum:
+      enum:
+      - client_error
+      type: string
+      description: '* `client_error` - Client Error'
+    ParseErrorResponse:
       type: object
       properties:
         type:
@@ -244,7 +254,19 @@ components:
         errors:
           type: array
           items:
-            $ref: '#/components/schemas/Error429'
+            $ref: '#/components/schemas/ParseError'
+      required:
+      - errors
+      - type
+    ErrorResponse403:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/Type5d3Enum'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error403'
       required:
       - errors
       - type
@@ -265,145 +287,25 @@ components:
       required:
       - citations
       - value
-    Error404CodeEnum:
-      enum:
-      - not_found
-      type: string
-      description: '* `not_found` - Not Found'
-    ErrorResponse403:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/Type5d3Enum'
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error403'
-      required:
-      - errors
-      - type
     ErrorResponse500TypeEnum:
       enum:
       - server_error
       type: string
       description: '* `server_error` - Server Error'
-    PublicAPIEntity:
+    PublicAPIEntityProperty:
       type: object
       properties:
-        id:
-          type: integer
-          description: Entity ID
-        latestVersionId:
-          type: integer
-          description: ID of latest entity version
-        properties:
+        predicateId:
+          type: string
+          description: Property Predicate ID
+        instances:
           type: array
           items:
-            $ref: '#/components/schemas/PublicAPIEntityProperty'
-          readOnly: true
-          description: Array of properties
+            $ref: '#/components/schemas/PublicAPIEntityPropertyInstance'
+          description: Array of Property Instances
       required:
-      - id
-      - latestVersionId
-      - properties
-    PaginatedPublicAPIEntityList:
-      type: object
-      properties:
-        next:
-          type: string
-          nullable: true
-          format: uri
-          description: URL of next page
-        previous:
-          type: string
-          nullable: true
-          format: uri
-          description: URL of previous page
-        results:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublicAPIEntity'
-    Error429CodeEnum:
-      enum:
-      - throttled
-      type: string
-      description: '* `throttled` - Throttled'
-    ErrorResponse404:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/Type5d3Enum'
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/Error404'
-      required:
-      - errors
-      - type
-    PublicAPICitation:
-      type: object
-      properties:
-        title:
-          type: string
-          description: Citation Title
-        url:
-          type: string
-          description: Citation URL value
-      required:
-      - title
-      - url
-    Error404:
-      type: object
-      properties:
-        code:
-          $ref: '#/components/schemas/Error404CodeEnum'
-        detail:
-          type: string
-        attr:
-          type: string
-          nullable: true
-      required:
-      - attr
-      - code
-      - detail
-    ParseError:
-      type: object
-      properties:
-        code:
-          $ref: '#/components/schemas/ParseErrorCodeEnum'
-        detail:
-          type: string
-        attr:
-          type: string
-          nullable: true
-      required:
-      - attr
-      - code
-      - detail
-    ParseErrorResponse:
-      type: object
-      properties:
-        type:
-          $ref: '#/components/schemas/Type5d3Enum'
-        errors:
-          type: array
-          items:
-            $ref: '#/components/schemas/ParseError'
-      required:
-      - errors
-      - type
-    PublicApiQueriesResultsListErrorResponse400:
-      oneOf:
-      - $ref: '#/components/schemas/ParseErrorResponse'
-      discriminator:
-        propertyName: type
-        mapping:
-          client_error: '#/components/schemas/ParseErrorResponse'
-    Error403CodeEnum:
-      enum:
-      - permission_denied
-      type: string
-      description: '* `permission_denied` - Permission Denied'
+      - instances
+      - predicateId
     Error403:
       type: object
       properties:
@@ -418,13 +320,20 @@ components:
       - attr
       - code
       - detail
-    PublicApiQueriesPermalinkListErrorResponse400:
-      oneOf:
-      - $ref: '#/components/schemas/ParseErrorResponse'
-      discriminator:
-        propertyName: type
-        mapping:
-          client_error: '#/components/schemas/ParseErrorResponse'
+    Error404:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/Error404CodeEnum'
+        detail:
+          type: string
+        attr:
+          type: string
+          nullable: true
+      required:
+      - attr
+      - code
+      - detail
     PublicAPIEntityPropertyValue:
       oneOf:
       - type: integer
@@ -465,20 +374,18 @@ components:
         description: 'JSON object value. Used for json predicate type.
 
           For json type, the schema is predicate specific. See predicate schema resource for details.'
-    PublicAPIEntityProperty:
-      type: object
-      properties:
-        predicateId:
-          type: string
-          description: Property Predicate ID
-        instances:
-          type: array
-          items:
-            $ref: '#/components/schemas/PublicAPIEntityPropertyInstance'
-          description: Array of Property Instances
-      required:
-      - instances
-      - predicateId
+    PublicApiQueriesPermalinkListErrorResponse400:
+      oneOf:
+      - $ref: '#/components/schemas/ParseErrorResponse'
+      discriminator:
+        propertyName: type
+        mapping:
+          client_error: '#/components/schemas/ParseErrorResponse'
+    Error429CodeEnum:
+      enum:
+      - throttled
+      type: string
+      description: '* `throttled` - Throttled'
     Error429:
       type: object
       properties:
@@ -493,11 +400,6 @@ components:
       - attr
       - code
       - detail
-    Error500CodeEnum:
-      enum:
-      - error
-      type: string
-      description: '* `error` - Error'
     ErrorResponse500:
       type: object
       properties:
@@ -510,11 +412,40 @@ components:
       required:
       - errors
       - type
-    ParseErrorCodeEnum:
+    ErrorResponse429:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/Type5d3Enum'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error429'
+      required:
+      - errors
+      - type
+    Error500CodeEnum:
       enum:
-      - parse_error
+      - error
       type: string
-      description: '* `parse_error` - Parse Error'
+      description: '* `error` - Error'
+    Error404CodeEnum:
+      enum:
+      - not_found
+      type: string
+      description: '* `not_found` - Not Found'
+    ErrorResponse404:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/Type5d3Enum'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error404'
+      required:
+      - errors
+      - type
     Error500:
       type: object
       properties:
@@ -529,11 +460,80 @@ components:
       - attr
       - code
       - detail
-    Type5d3Enum:
+    ParseError:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/ParseErrorCodeEnum'
+        detail:
+          type: string
+        attr:
+          type: string
+          nullable: true
+      required:
+      - attr
+      - code
+      - detail
+    PaginatedPublicAPIEntityList:
+      type: object
+      properties:
+        next:
+          type: string
+          nullable: true
+          format: uri
+          description: URL of next page
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          description: URL of previous page
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicAPIEntity'
+    PublicApiQueriesResultsListErrorResponse400:
+      oneOf:
+      - $ref: '#/components/schemas/ParseErrorResponse'
+      discriminator:
+        propertyName: type
+        mapping:
+          client_error: '#/components/schemas/ParseErrorResponse'
+    Error403CodeEnum:
       enum:
-      - client_error
+      - permission_denied
       type: string
-      description: '* `client_error` - Client Error'
+      description: '* `permission_denied` - Permission Denied'
+    PublicAPIEntity:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: Entity ID
+        latestVersionId:
+          type: integer
+          description: ID of latest entity version
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicAPIEntityProperty'
+          readOnly: true
+          description: Array of properties
+      required:
+      - id
+      - latestVersionId
+      - properties
+    PublicAPICitation:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Citation Title
+        url:
+          type: string
+          description: Citation URL value
+      required:
+      - title
+      - url
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
