@@ -1,0 +1,12 @@
+{
+ "url": "https://docs.golden.com/openapi.json",
+ "requested_url": "https://docs.golden.com/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 63998,
+ "sha256": "66afe5c78608c58e51b80124986533c567ba62ad0c6b6b5d686bf77f2f58e807",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the archived file is byte-identical to what the provider serves."
+}
