@@ -2,14 +2,20 @@
   "repo": "golden",
   "feeds": [
     {
+      "source": "https://golden.com/news/",
+      "feed_url": "https://golden.com/news/",
+      "title": "",
+      "saved": 0,
+      "method": "none"
+    },
+    {
       "source": "https://golden.com/contact",
       "feed_url": "https://golden.com/contact",
       "title": "",
       "saved": 0,
-      "method": "none",
-      "error": "parse_failed"
+      "method": "none"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-10-03T12:15:37Z"
+  "fetched": "2026-10-10T13:15:00Z"
 }
